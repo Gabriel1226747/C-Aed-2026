@@ -26,4 +26,25 @@ int ejecutarSimulacion(
         snprintf(error, tamError, "Error: valores fisicos invalidos.");
         return 0;
     }
-    
+     // Primera fase: desacople de los SRB.
+    v1 = datos->v0 + datos->a1 * datos->t1;
+
+    y1 = datos->y0 +
+         datos->v0 * datos->t1 +
+         (datos->a1 * datos->t1 * datos->t1) / 2.0;
+
+    // La segunda fase requiere que la altitud
+    // de apagado sea igual o superior a y1.
+    if (datos->h < y1) {
+        snprintf(error, tamError,
+                 "Error: la altura de apagado es menor que la altura de desacople.");
+        return 0;
+    }
+
+    // Segunda fase: velocidad al apagar los motores.
+    v2 = sqrt(v1 * v1 +
+              2.0 * datos->a2 * (datos->h - y1));
+
+    // Tercera fase: ascenso por inercia.
+    hMax = datos->h + (v2 * v2) / (2.0 * datos->g);
+
