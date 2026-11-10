@@ -46,5 +46,23 @@ int ejecutarSimulacion(
               2.0 * datos->a2 * (datos->h - y1));
 
     // Tercera fase: ascenso por inercia.
-    hMax = datos->h + (v2 * v2) / (2.0 * datos->g);
+    hMax = datos->h + (v2 * v2) / (2.0 * datos->g);  
+        
+    // Almacenamiento de resultados mediante punteros.
+    *(r + VEL_DESACOPLE) = v1;
+    *(r + ALT_DESACOPLE) = y1;
+    *(r + VEL_APAGADO) = v2;
+    *(r + ALT_MAXIMA) = hMax;
+
+    // Comprobacion de resultados finitos.
+    for (int i = 0; i < CANT_RESULTADOS; i++) {
+        if (!isfinite(r[i])) {
+            snprintf(error, tamError,
+                     "Error: resultado fuera del rango numerico.");
+            return 0;
+        }
+    }
+
+    return 1;
+}
 
