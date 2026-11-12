@@ -18,6 +18,7 @@ int leerEnteroRango(const char *mensaje, int min, int max) {
             limpiarBuffer();
         } else if (valor < min || valor > max) {
             printf("[ERROR] El numero debe estar en el rango [%d, %d].\n", min, max);
+            limpiarBuffer();
         }
     } while (resultado != 1 || valor < min || valor > max);
     limpiarBuffer();
@@ -35,6 +36,7 @@ double leerDoubleMinimo(const char *mensaje, double min) {
             limpiarBuffer();
         } else if (valor < min) {
             printf("[ERROR] El valor debe ser mayor o igual a %.2f.\n", min);
+            limpiarBuffer();
         }
     } while (resultado != 1 || valor < min);
     limpiarBuffer();
@@ -52,6 +54,7 @@ double leerDoubleRango(const char *mensaje, double min, double max) {
             limpiarBuffer();
         } else if (valor < min || valor > max) {
             printf("[ERROR] El valor debe estar en el rango [%.2f, %.2f].\n", min, max);
+            limpiarBuffer();
         }
     } while (resultado != 1 || valor < min || valor > max);
     limpiarBuffer();
