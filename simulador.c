@@ -1,8 +1,57 @@
+
 #include <stdio.h>
 #include <math.h>
-#include <string.h>
 #include "simulador.h"
 
+// Comprueba que todos los parametros de la simulacion sean validos.
+static int validarDatos(
+    const DatosSimulacion *datos,
+    char *error,
+    size_t tamError
+) {
+    if (datos == NULL) {
+        if (error != NULL && tamError > 0) {
+            snprintf(error, tamError, "Error: datos de simulacion inexistentes.");
+        }
+        return 0;
+    }
+
+    // Verificacion de valores finitos.
+    if (!isfinite(datos->v0) ||
+        !isfinite(datos->y0) ||
+        !isfinite(datos->a1) ||
+        !isfinite(datos->t1) ||
+        !isfinite(datos->a2) ||
+        !isfinite(datos->h)  ||
+        !isfinite(datos->g)) {
+
+        if (error != NULL && tamError > 0) {
+            snprintf(error, tamError, "Error: todos los parametros deben ser valores numericos finitos.");
+        }
+        return 0;
+    }
+
+    // Verificacion de rangos fisicos.
+    if (datos->a1 <= 0.0 ||
+        datos->a2 <= 0.0 ||
+        datos->g <= 0.0 ||
+        datos->t1 < 0.0 ||
+        datos->v0 < 0.0 ||
+        datos->y0 < 0.0 ||
+        datos->h < 0.0) {
+
+        if (error != NULL && tamError > 0) {
+            snprintf(error, tamError,
+                     "Error: aceleraciones y gravedad deben ser positivas; tiempo, velocidad y altitudes no pueden ser negativos.");
+        }
+        return 0;
+    }
+
+    return 1;
+}
+
+
+// Realiza los calculos analiticos generales de la simulacion.
 int ejecutarSimulacion(
     const DatosSimulacion *datos,
     double resultados[CANT_RESULTADOS],
@@ -10,68 +59,90 @@ int ejecutarSimulacion(
     size_t tamError
 ) {
     double v1, y1, v2, hMax, t2, tTotal;
-    double *r = resultados;
+    double *r;
 
-    // 1. Validacion de punteros de entrada
-    if (datos == NULL || resultados == NULL) {
+    // Validacion de punteros.
+    if (resultados == NULL) {
         if (error != NULL && tamError > 0) {
-            snprintf(error, tamError, "Error: datos o vector de resultados inexistentes.");
+            snprintf(error, tamError, "Error: vector de resultados inexistente.");
         }
         return 0;
     }
 
-    // 2. Validacion de parametros fisicos
-    if (datos->a1 <= 0 || datos->a2 <= 0 ||
-        datos->g <= 0  || datos->t1 < 0  ||
-        datos->v0 < 0  || datos->y0 < 0  ||
-        datos->h < 0) {
-
-        if (error != NULL && tamError > 0) {
-            snprintf(error, tamError, "Error: valores fisicos invalidos (aceleraciones y g deben ser mayores a 0).");
-        }
+    if (!validarDatos(datos, error, tamError)) {
         return 0;
     }
 
-    // 3. Primera fase: desacople de los SRB
+    r = resultados;
+
+    // Primera fase: desacople de los SRB.
     v1 = datos->v0 + datos->a1 * datos->t1;
-    y1 = datos->y0 + datos->v0 * datos->t1 + (datos->a1 * datos->t1 * datos->t1) / 2.0;
+
+    y1 = datos->y0
+       + datos->v0 * datos->t1
+       + (datos->a1 * datos->t1 * datos->t1) / 2.0;
+
+    // Verificacion de resultados intermedios.
+    if (!isfinite(v1) || !isfinite(y1)) {
+        if (error != NULL && tamError > 0) {
+            snprintf(error, tamError, "Error: desbordamiento numerico en la primera fase.");
+        }
+        return 0;
+    }
 
     if (datos->h < y1) {
         if (error != NULL && tamError > 0) {
-            snprintf(error, tamError, "Error: la altitud de apagado h (%.2fm) es menor que la altitud en desacople (%.2fm).", datos->h, y1);
+            snprintf(error, tamError,
+                     "Error: la altitud de apagado h (%.2f m) es menor que la altitud de desacople (%.2f m).",
+                     datos->h, y1);
         }
         return 0;
     }
 
-    // 4. Segunda fase: velocidad al apagar los motores y tiempos de vuelo
-    v2 = sqrt(v1 * v1 + 2.0 * datos->a2 * (datos->h - y1));
+    // Segunda fase: velocidad al apagar los motores.
+    double radicando = v1 * v1
+                     + 2.0 * datos->a2 * (datos->h - y1);
+
+    if (!isfinite(radicando) || radicando < 0.0) {
+        if (error != NULL && tamError > 0) {
+            snprintf(error, tamError, "Error: no se puede calcular la velocidad final.");
+        }
+        return 0;
+    }
+
+    v2 = sqrt(radicando);
+
     t2 = (v2 - v1) / datos->a2;
     tTotal = datos->t1 + t2;
 
-    // 5. Tercera fase: ascenso por inercia hasta el apogeo (si fallaran motores)
+    // Tercera fase: ascenso por inercia hasta el apogeo.
     hMax = datos->h + (v2 * v2) / (2.0 * datos->g);
 
-    // Almacenamiento de resultados mediante aritmetica de punteros
+    // Comprobacion de resultados finitos.
+    if (!isfinite(v2) ||
+        !isfinite(t2) ||
+        !isfinite(tTotal) ||
+        !isfinite(hMax)) {
+
+        if (error != NULL && tamError > 0) {
+            snprintf(error, tamError, "Error: resultado fuera del rango numerico (overflow/NaN).");
+        }
+        return 0;
+    }
+
+    // Almacenamiento mediante aritmetica de punteros.
     *(r + VEL_DESACOPLE) = v1;
     *(r + ALT_DESACOPLE) = y1;
-    *(r + VEL_APAGADO)   = v2;
-    *(r + ALT_MAXIMA)    = hMax;
-    *(r + TIEMPO_FASE2)  = t2;
-    *(r + TIEMPO_TOTAL)  = tTotal;
-
-    // 6. Comprobacion de resultados finitos (evita NaN o Inf)
-    for (int i = 0; i < CANT_RESULTADOS; i++) {
-        if (!isfinite(r[i])) {
-            if (error != NULL && tamError > 0) {
-                snprintf(error, tamError, "Error: resultado fuera del rango numerico (overflow/NaN).");
-            }
-            return 0;
-        }
-    }
+    *(r + VEL_APAGADO) = v2;
+    *(r + ALT_MAXIMA) = hMax;
+    *(r + TIEMPO_FASE2) = t2;
+    *(r + TIEMPO_TOTAL) = tTotal;
 
     return 1;
 }
 
+
+// Genera la secuencia temporal de telemetria y eventos.
 int generarTelemetria(
     const DatosSimulacion *datos,
     PuntoTelemetria historial[MAX_TELEMETRIA],
@@ -79,104 +150,182 @@ int generarTelemetria(
     char *error,
     size_t tamError
 ) {
-    if (datos == NULL || historial == NULL || cantPuntos == NULL) {
+    double resultados[CANT_RESULTADOS];
+    double v1, y1, v2, tTotal;
+    double paso;
+    int idx = 0;
+
+    // Validacion de punteros.
+    if (historial == NULL || cantPuntos == NULL) {
         if (error != NULL && tamError > 0) {
             snprintf(error, tamError, "Error: punteros nulos al generar telemetria.");
         }
         return 0;
     }
 
-    double v1 = datos->v0 + datos->a1 * datos->t1;
-    double y1 = datos->y0 + datos->v0 * datos->t1 + 0.5 * datos->a1 * datos->t1 * datos->t1;
+    // Validacion independiente de los datos.
+    if (!ejecutarSimulacion(datos, resultados, error, tamError)) {
+        return 0;
+    }
 
-    if (datos->h < y1) {
+    v1 = resultados[VEL_DESACOPLE];
+    y1 = resultados[ALT_DESACOPLE];
+    v2 = resultados[VEL_APAGADO];
+    tTotal = resultados[TIEMPO_TOTAL];
+
+    // Ajuste del paso para respetar la capacidad del arreglo.
+    paso = DELTA_T;
+
+    if ((tTotal / paso) + 4.0 >= MAX_TELEMETRIA) {
+        paso = tTotal / (MAX_TELEMETRIA - 5);
+    }
+
+    if (paso <= 0.0 || !isfinite(paso)) {
+        paso = DELTA_T;
+    }
+
+    // Registro inicial en plataforma (t = 0).
+    historial[idx].tiempo = 0.0;
+    historial[idx].altitud = datos->y0;
+    historial[idx].velocidad = datos->v0;
+    historial[idx].fuerzasG = datos->a1 / datos->g;
+    historial[idx].fase = 1;
+
+    snprintf(historial[idx].evento,
+             sizeof(historial[idx].evento),
+             "IGNICION Y DESPEGUE (SRB + NUCLEO)");
+
+    idx++;
+
+    // Fase 1: ascenso con SRB activos.
+    for (double t = paso;
+         t < datos->t1 && idx < MAX_TELEMETRIA - 2;
+         t += paso) {
+
+        historial[idx].tiempo = t;
+
+        historial[idx].altitud =
+            datos->y0 + datos->v0 * t
+            + 0.5 * datos->a1 * t * t;
+
+        historial[idx].velocidad = datos->v0 + datos->a1 * t;
+        historial[idx].fuerzasG = datos->a1 / datos->g;
+        historial[idx].fase = 1;
+
+        snprintf(historial[idx].evento,
+                 sizeof(historial[idx].evento),
+                 "Ascenso Fase 1 (SRB activos)");
+
+        idx++;
+    }
+
+    // Evento critico exacto: desacople de los SRB.
+    if (idx < MAX_TELEMETRIA - 1) {
+        historial[idx].tiempo = datos->t1;
+        historial[idx].altitud = y1;
+        historial[idx].velocidad = v1;
+        historial[idx].fuerzasG = datos->a2 / datos->g;
+        historial[idx].fase = 3;
+
+        snprintf(historial[idx].evento,
+                 sizeof(historial[idx].evento),
+                 ">>> DESACOPLE DE COHETES SRB <<<");
+
+        idx++;
+    }
+
+    // Fase 2: ascenso con el motor del nucleo principal.
+    for (double dt = paso;
+         datos->t1 + dt < tTotal && idx < MAX_TELEMETRIA - 1;
+         dt += paso) {
+
+        historial[idx].tiempo = datos->t1 + dt;
+
+        historial[idx].altitud =
+            y1 + v1 * dt + 0.5 * datos->a2 * dt * dt;
+
+        historial[idx].velocidad = v1 + datos->a2 * dt;
+        historial[idx].fuerzasG = datos->a2 / datos->g;
+        historial[idx].fase = 2;
+
+        snprintf(historial[idx].evento,
+                 sizeof(historial[idx].evento),
+                 "Ascenso Fase 2 (Motor nucleo)");
+
+        idx++;
+    }
+
+    // Evento final exacto: apagado de motores (MECO).
+    if (idx >= MAX_TELEMETRIA) {
         if (error != NULL && tamError > 0) {
-            snprintf(error, tamError, "Error: h no puede ser menor a y1.");
+            snprintf(error, tamError, "Error: capacidad de telemetria superada.");
         }
         return 0;
     }
 
-    double v2 = sqrt(v1 * v1 + 2.0 * datos->a2 * (datos->h - y1));
-    double t2 = (v2 - v1) / datos->a2;
-    double tTotal = datos->t1 + t2;
+    historial[idx].tiempo = tTotal;
+    historial[idx].altitud = datos->h;
+    historial[idx].velocidad = v2;
+    historial[idx].fuerzasG = 0.0;
+    historial[idx].fase = 3;
 
-    double paso = DELTA_T;
-    if ((tTotal / paso) + 4 >= MAX_TELEMETRIA) {
-        paso = tTotal / (MAX_TELEMETRIA - 5);
-    }
+    snprintf(historial[idx].evento,
+             sizeof(historial[idx].evento),
+             ">>> APAGADO DE MOTORES (MECO) <<<");
 
-    int idx = 0;
-    PuntoTelemetria *p = historial;
-
-    // Registro inicial en plataforma (t = 0)
-    p[idx].tiempo = 0.0;
-    p[idx].altitud = datos->y0;
-    p[idx].velocidad = datos->v0;
-    p[idx].fuerzasG = datos->a1 / datos->g;
-    p[idx].fase = 1;
-    snprintf(p[idx].evento, sizeof(p[idx].evento), "IGNICION Y DESPEGUE (SRB + NUCLEO)");
-    idx++;
-
-    // Fase 1: ascenso con SRB activos
-    for (double t = paso; t < datos->t1 && idx < MAX_TELEMETRIA - 3; t += paso) {
-        p[idx].tiempo = t;
-        p[idx].altitud = datos->y0 + datos->v0 * t + 0.5 * datos->a1 * t * t;
-        p[idx].velocidad = datos->v0 + datos->a1 * t;
-        p[idx].fuerzasG = datos->a1 / datos->g;
-        p[idx].fase = 1;
-        snprintf(p[idx].evento, sizeof(p[idx].evento), "Ascenso Fase 1 (SRB activos)");
-        idx++;
-    }
-
-    // Evento critico exacto en t = t1: Desacople de SRB
-    if (datos->t1 > 0.0 && idx < MAX_TELEMETRIA - 2) {
-        p[idx].tiempo = datos->t1;
-        p[idx].altitud = y1;
-        p[idx].velocidad = v1;
-        p[idx].fuerzasG = datos->a2 / datos->g;
-        p[idx].fase = 3;
-        snprintf(p[idx].evento, sizeof(p[idx].evento), ">>> DESACOPLE DE COHETES SRB <<<");
-        idx++;
-    }
-
-    // Fase 2: ascenso solo con motor del nucleo principal
-    for (double t = datos->t1 + paso; t < tTotal && idx < MAX_TELEMETRIA - 1; t += paso) {
-        double dt2 = t - datos->t1;
-        p[idx].tiempo = t;
-        p[idx].altitud = y1 + v1 * dt2 + 0.5 * datos->a2 * dt2 * dt2;
-        p[idx].velocidad = v1 + datos->a2 * dt2;
-        p[idx].fuerzasG = datos->a2 / datos->g;
-        p[idx].fase = 2;
-        snprintf(p[idx].evento, sizeof(p[idx].evento), "Ascenso Fase 2 (Motor nucleo)");
-        idx++;
-    }
-
-    // Evento final exacto: Apagado de motores (MECO)
-    p[idx].tiempo = tTotal;
-    p[idx].altitud = datos->h;
-    p[idx].velocidad = v2;
-    p[idx].fuerzasG = 0.0;
-    p[idx].fase = 3;
-    snprintf(p[idx].evento, sizeof(p[idx].evento), ">>> APAGADO DE MOTORES (MECO) <<<");
     idx++;
 
     *cantPuntos = idx;
+
     return 1;
 }
 
+
+// Evalua si una simulacion cumple los objetivos del Modo Desafio.
 int evaluarDesafio(
     const DatosSimulacion *datos,
     const double resultados[CANT_RESULTADOS],
     char *diagnostico,
     size_t tamDiag
 ) {
-    if (datos == NULL || resultados == NULL || diagnostico == NULL || tamDiag == 0) {
+    double resultadosCalculados[CANT_RESULTADOS];
+    double aMax;
+    double gMax;
+    double v2;
+
+    if (diagnostico == NULL || tamDiag == 0) {
         return 0;
     }
 
-    double gMax = datos->a1 / datos->g;
-    double v2 = resultados[VEL_APAGADO];
+    if (resultados == NULL) {
+        snprintf(diagnostico, tamDiag,
+                 "ERROR: vector de resultados inexistente.");
+        return 0;
+    }
 
+    // Se comprueba que los datos y los calculos sean validos.
+    if (!ejecutarSimulacion(
+            datos,
+            resultadosCalculados,
+            diagnostico,
+            tamDiag)) {
+        return 0;
+    }
+
+    // Se utilizan los resultados recalculados para evitar datos inconsistentes.
+    aMax = (datos->a1 > datos->a2) ? datos->a1 : datos->a2;
+    gMax = aMax / datos->g;
+
+    v2 = resultadosCalculados[VEL_APAGADO];
+
+    // Control de desacople antes de alcanzar la altitud objetivo.
+    if (resultadosCalculados[ALT_DESACOPLE] >= datos->h) {
+        snprintf(diagnostico, tamDiag,
+                 "FALLO: los SRB deben desacoplarse antes de alcanzar la altitud objetivo.");
+        return 0;
+    }
+
+    // Control de aceleracion maxima.
     if (gMax > LIMITE_G_TRIPULACION) {
         snprintf(diagnostico, tamDiag,
                  "FALLO POR SOBRECARGA G: %.2f g supera el limite seguro de %.2f g para la tripulacion.",
@@ -184,22 +333,25 @@ int evaluarDesafio(
         return 0;
     }
 
+    // Control de velocidad minima.
     if (v2 < VEL_OBJETIVO_MIN) {
         snprintf(diagnostico, tamDiag,
-                 "VELOCIDAD INSUFICIENTE: v2 = %.2f m/s (se requiere al menos %.2f m/s para insercion orbital).",
+                 "VELOCIDAD INSUFICIENTE: v2 = %.2f m/s (se requiere al menos %.2f m/s).",
                  v2, VEL_OBJETIVO_MIN);
         return 0;
     }
 
+    // Control de velocidad maxima.
     if (v2 > VEL_OBJETIVO_MAX) {
         snprintf(diagnostico, tamDiag,
-                 "EXCESO DE VELOCIDAD: v2 = %.2f m/s supera la ventana orbital maxima de %.2f m/s.",
+                 "EXCESO DE VELOCIDAD: v2 = %.2f m/s supera la ventana objetivo maxima de %.2f m/s.",
                  v2, VEL_OBJETIVO_MAX);
         return 0;
     }
 
     snprintf(diagnostico, tamDiag,
-             "MISION EXITOSA: Insercion a %.2f m/s con carga segura de %.2f g.",
+             "MISION EXITOSA: velocidad final de %.2f m/s con carga maxima de %.2f g.",
              v2, gMax);
+
     return 1;
 }
