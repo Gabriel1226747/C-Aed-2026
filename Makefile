@@ -1,9 +1,10 @@
+
 CC = gcc
 CFLAGS = -std=c11 -Wall -Wextra -pedantic
 LDLIBS = -lm
 
 TARGET = artemis
-SOURCES = main.c simulador.c validaciones.c
+SOURCES = main.c interfaz.c simulador.c validaciones.c
 OBJECTS = $(SOURCES:.c=.o)
 
 .PHONY: all clean rebuild
