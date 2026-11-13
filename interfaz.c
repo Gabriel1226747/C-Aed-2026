@@ -1,4 +1,5 @@
 
+
 #include <stdio.h>
 
 #include "interfaz.h"
@@ -19,6 +20,7 @@ static void mostrarTelemetria(
     for (int i = 0; i < cantPuntos; i++) {
         const PuntoTelemetria *p = historial + i;
         int bloques = 0;
+        char barra[13];
 
         if (hObjetivo > 0.0) {
             bloques = (int)((p->altitud / hObjetivo) * 10.0);
@@ -31,8 +33,6 @@ static void mostrarTelemetria(
                 bloques = 0;
             }
         }
-
-        char barra[13];
 
         barra[0] = '[';
 
@@ -66,8 +66,13 @@ static void mostrarTelemetria(
 static void mostrarReporte(
     const double resultados[CANT_RESULTADOS],
     double a1,
+    double a2,
     double g
 ) {
+    double aceleracionMaxima;
+
+    aceleracionMaxima = (a1 > a2) ? a1 : a2;
+
     printf("\n=======================================================\n");
     printf("         REPORTE ANALITICO FINAL - ARTEMIS (SLS)       \n");
     printf("=======================================================\n");
@@ -76,11 +81,11 @@ static void mostrarReporte(
            resultados[VEL_DESACOPLE],
            resultados[VEL_DESACOPLE] * 3.6);
 
-    printf("   Altitud recorrida (y1):          %.2f m (%.2f km)\n",
+    printf("   Altitud al desacople (y1):       %.2f m (%.2f km)\n",
            resultados[ALT_DESACOPLE],
            resultados[ALT_DESACOPLE] / 1000.0);
 
-    printf("b. Rapidez maxima al apagar (v2):   %.2f m/s (%.2f km/h)\n",
+    printf("b. Rapidez al apagar motores (v2):  %.2f m/s (%.2f km/h)\n",
            resultados[VEL_APAGADO],
            resultados[VEL_APAGADO] * 3.6);
 
@@ -95,8 +100,8 @@ static void mostrarReporte(
            resultados[ALT_MAXIMA],
            resultados[ALT_MAXIMA] / 1000.0);
 
-    printf("d. Aceleracion maxima (fase 1):     %.2f g\n",
-           a1 / g);
+    printf("d. Aceleracion maxima del ascenso:  %.2f g\n",
+           aceleracionMaxima / g);
 
     printf("=======================================================\n\n");
 }
@@ -117,25 +122,24 @@ void correrMision(const DatosSimulacion *datos) {
     int cantPuntos = 0;
     char error[256];
 
-    if (ejecutarSimulacion(datos, resultados, error, sizeof(error))) {
-
-        if (generarTelemetria(
-                datos,
-                historial,
-                &cantPuntos,
-                error,
-                sizeof(error))) {
-
-            mostrarTelemetria(historial, cantPuntos, datos->h);
-            mostrarReporte(resultados, datos->a1, datos->g);
-
-        } else {
-            printf("\n[ERROR DE TELEMETRIA] %s\n\n", error);
-        }
-
-    } else {
+    if (!ejecutarSimulacion(datos, resultados, error, sizeof(error))) {
         printf("\n[ERROR DE SIMULACION] %s\n\n", error);
+        return;
     }
+
+    if (!generarTelemetria(
+            datos,
+            historial,
+            &cantPuntos,
+            error,
+            sizeof(error))) {
+
+        printf("\n[ERROR DE TELEMETRIA] %s\n\n", error);
+        return;
+    }
+
+    mostrarTelemetria(historial, cantPuntos, datos->h);
+    mostrarReporte(resultados, datos->a1, datos->a2, datos->g);
 }
 
 void jugarModoDesafio(void) {
@@ -165,7 +169,7 @@ void jugarModoDesafio(void) {
            VEL_OBJETIVO_MIN,
            VEL_OBJETIVO_MAX);
 
-    printf("  - NO superar %.1f g de aceleracion en Fase 1 (seguridad tripulacion).\n",
+    printf("  - NO superar %.1f g de aceleracion maxima durante el ascenso.\n",
            LIMITE_G_TRIPULACION);
 
     printf("  - Desacoplar los SRB (y1) antes de alcanzar los 160.0 km.\n");
@@ -229,6 +233,11 @@ void jugarModoDesafio(void) {
                intento,
                diagnostico);
         printf("*********************************************************************\n");
+
+        if (misionCumplida) {
+            printf("\n[LANZAMIENTO EXITOSO] Se cumplieron todos los objetivos.\n");
+            mostrarReporte(resultados, datos.a1, datos.a2, datos.g);
+        }
     }
 
     if (!misionCumplida) {
