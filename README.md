@@ -268,6 +268,8 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 &#x20; \* Propuestas de casos de prueba y validación de entradas por consola.
 
+&#x20; \* Búsqueda y verificacion de errores tanto de cálculos como de código o sintaxis y optimizaciones generales.
+
 \* \*\*Ejemplos de consultas realizadas:\*\*
 
 &#x20; \* \*"Cómo validar entradas numéricas en C limpiando el buffer para evitar bucles infinitos."\*
