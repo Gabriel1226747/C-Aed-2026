@@ -1,4 +1,4 @@
-# Simulador de Misiones Artemis – Escenario 1
+# Simulador de Misiones Artemis – Escenario 1 - Grupo B 5
 
 
 
@@ -44,7 +44,7 @@
 
 
 
-El proyecto consiste en desarrollar un simulador interactivo por consola, utilizando el lenguaje C, basado en el proceso de ascenso y propulsión del cohete \*\*Space Launch System (SLS)\*\*, perteneciente al programa Artemis de la NASA.
+El proyecto consiste en desarrollar un simulador interactivo por consola, utilizando el lenguaje C, basado en el proceso de ascenso y propulsión del cohete **Space Launch System (SLS)**, perteneciente al programa Artemis de la NASA.
 
 
 
@@ -294,7 +294,7 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: LINK REPO
 
-Video de youtube: LINK YT
+Video de YouTube: LINK YT
 
 
 *Proyecto académico – Algoritmos y Estructuras de Datos – UTN FRRe.*
