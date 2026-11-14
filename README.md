@@ -12,7 +12,7 @@
 
 
 
-\---
+
 
 
 
@@ -36,7 +36,7 @@
 
 
 
-\---
+
 
 
 
@@ -114,9 +114,9 @@ El sistema presenta un menú principal desde el cual el usuario puede selecciona
 
 
 
-**Simulación con parámetros establecidos:\*\* utiliza los valores físicos definidos en el escenario Artemis.
+**Simulación con parámetros establecidos:** utiliza los valores físicos definidos en el escenario Artemis.
 
-***Simulación personalizada:\*\* permite ingresar nuevos parámetros para realizar cálculos dentro de las restricciones físicas del modelo.
+**Simulación personalizada:** permite ingresar nuevos parámetros para realizar cálculos dentro de las restricciones físicas del modelo.
 
 
 
@@ -124,7 +124,7 @@ Al finalizar los cálculos, el sistema presenta un reporte detallado con los res
 
 
 
-\---
+
 
 
 
@@ -184,7 +184,7 @@ C-Aed-2026/
 
 
 
-\---
+
 
 
 
@@ -194,9 +194,9 @@ C-Aed-2026/
 
 **Lenguaje de programación:** C (Estándar C11)
 
-***Compilador:** GCC
+**Compilador:** GCC
 
-***Control de versiones:** Git
+**Control de versiones:** Git
 
 **Repositorio:** GitHub
 
@@ -204,7 +204,7 @@ C-Aed-2026/
 
 
 
-\---
+
 
 
 
@@ -220,7 +220,7 @@ make
 
 ```
 
-\*(En Windows con MinGW puede ejecutarse como `mingw32-make`).\*
+*(En Windows con MinGW puede ejecutarse como `mingw32-make`).*
 
 
 
@@ -228,13 +228,13 @@ Para ejecutar el simulador:
 
 ```bash
 
-\# En Linux / macOS / Git Bash:
+# En Linux / macOS / Git Bash:
 
 ./artemis
 
 
 
-\# En Windows (CMD / PowerShell):
+# En Windows (CMD / PowerShell):
 
 artemis.exe
 
@@ -252,7 +252,7 @@ make clean
 
 
 
-\---
+
 
 
 
@@ -268,34 +268,34 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 **Tareas realizadas:**
 
-&#x20; * Consulta y comprensión de conceptos de programación en C (punteros, estructuras y modularización).
+&#x20;  Consulta y comprensión de conceptos de programación en C (punteros, estructuras y modularización).
 
-&#x20; * Asistencia en la estructura del `Makefile`, flujo de GitHub y documentación en Markdown.
+&#x20;  Asistencia en la estructura del `Makefile`, flujo de GitHub y documentación en Markdown.
 
-&#x20; * Verificación de cálculos físicos y fórmulas de MRUV correspondientes al escenario.
+&#x20;  Verificación de cálculos físicos y fórmulas de MRUV correspondientes al escenario.
 
-&#x20; * Propuestas de casos de prueba y validación de entradas por consola.
+&#x20;  Propuestas de casos de prueba y validación de entradas por consola.
 
-&#x20; * Búsqueda y verificacion de errores tanto de cálculos como de código o sintaxis y optimizaciones generales.
+&#x20;  Búsqueda y verificacion de errores tanto de cálculos como de código o sintaxis y optimizaciones generales.
 
-***Ejemplos de consultas realizadas:**
+**Ejemplos de consultas realizadas:**
 
-&#x20; **"Cómo validar entradas numéricas en C limpiando el buffer para evitar bucles infinitos."*
+&#x20; "Cómo validar entradas numéricas en C limpiando el buffer para evitar bucles infinitos."
 
-&#x20; **"Cómo estructurar un Makefile multiplataforma para compilar varios archivos .c y .h."*
+&#x20; "Cómo estructurar un Makefile multiplataforma para compilar varios archivos .c y .h."
 
-&#x20; **"Cómo organizar un programa en C utilizando módulos y archivos de cabecera."*
+&#x20; "Cómo organizar un programa en C utilizando módulos y archivos de cabecera."
 
 **Validación y adaptación:**
 
-&#x20; * Todas las sugerencias proporcionadas fueron revisadas, probadas y contrastadas con los requisitos de la consigna. Cada fragmento incorporado fue comprendido y adaptado por los integrantes del equipo mediante pruebas de escritorio y ejecución en consola.
+&#x20;  Todas las sugerencias proporcionadas fueron revisadas, probadas y contrastadas con los requisitos de la consigna. Cada fragmento incorporado fue comprendido y adaptado por los integrantes del equipo mediante pruebas de escritorio y ejecución en consola.
 
 **Links:**
 
 El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: LINK REPO
 
 Video de youtube: LINK YT
-\---
+
 
 *Proyecto académico – Algoritmos y Estructuras de Datos – UTN FRRe.*
 
