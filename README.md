@@ -60,21 +60,21 @@ El cohete parte del reposo desde la plataforma de lanzamiento y experimenta dos 
 
 **Primera fase:**
 
-&#x20; * Velocidad inicial: `0 m/s`.
+&#x20;  Velocidad inicial: `0 m/s`.
 
-&#x20; * Aceleración: `20 m/s²`.
+&#x20;  Aceleración: `20 m/s²`.
 
-&#x20; * Tiempo de duración: `120 segundos`.
+&#x20;  Tiempo de duración: `120 segundos`.
 
-&#x20; * Al finalizar, se produce el desprendimiento de los propulsores SRB.
+&#x20;  Al finalizar, se produce el desprendimiento de los propulsores SRB.
 
-***Segunda fase:**
+**Segunda fase:**
 
-&#x20; * Aceleración: `12,5 m/s²`.
+&#x20;  Aceleración: `12,5 m/s²`.
 
-&#x20; * Continúa el ascenso desde las condiciones finales de la primera fase.
+&#x20;  Continúa el ascenso desde las condiciones finales de la primera fase.
 
-&#x20; * Los motores se apagan al alcanzar los `160.000 metros` de altitud.
+&#x20;  Los motores se apagan al alcanzar los `160.000 metros` de altitud.
 
 
 
@@ -82,7 +82,7 @@ El cohete parte del reposo desde la plataforma de lanzamiento y experimenta dos 
 
 
 
-\---
+
 
 
 
@@ -102,7 +102,7 @@ El programa permite:
 
 
 
-\---
+
 
 
 
@@ -200,7 +200,7 @@ C-Aed-2026/
 
 **Repositorio:** GitHub
 
-***Entorno de ejecución:** Consola o terminal de comandos
+**Entorno de ejecución:** Consola o terminal de comandos
 
 
 
