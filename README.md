@@ -292,7 +292,7 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 **Links:**
 
-El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: LINK REPO
+El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: https://github.com/Gabriel1226747/C-Aed-2026
 
 Video de YouTube: LINK YT
 
