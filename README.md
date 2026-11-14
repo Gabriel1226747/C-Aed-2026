@@ -1,4 +1,4 @@
-\#Simulador de Misiones Artemis – Escenario 1
+# Simulador de Misiones Artemis – Escenario 1
 
 
 
@@ -293,6 +293,7 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 \* \*\*Links:\*\*
 
 El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: LINK REPO
+
 Video de youtube: LINK YT
 \---
 
