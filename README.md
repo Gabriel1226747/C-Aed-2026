@@ -22,11 +22,11 @@
 
 **Comisión:** K1.2 ISI B
 
-***Equipo de desarrollo:**
+**Equipo de desarrollo:**
 
 &#x20; * Gabriel Damian LEDESMA TARAGANO
 
-&#x20; * Renata VALERO TRENQUE
+&#x20; * Renata VALERO TRENQUE *
 
 &#x20; * Tobias Maximiliano Vilaqui
 
