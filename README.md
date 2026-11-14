@@ -146,6 +146,10 @@ C-Aed-2026/
 
 ├── simulador.c      # Cálculos físicos (MRUV) y lógica de simulación
 
+├── interfaz.h       # Declaraciones de las funciones de interfaz
+
+├── interfaz.c       # Telemetría, reportes y modo desafío
+
 ├── validaciones.h   # Prototipos de control de entrada
 
 ├── validaciones.c   # Validación de tipos de datos y rangos
@@ -166,7 +170,11 @@ C-Aed-2026/
 
 | `simulador.h` | Definición de estructuras, constantes y prototipos. |
 
-| `simulador.c` | Desarrollo de los cálculos físicos y lógica de simulación. |
+| `simulador.c` | Implementa los cálculos físicos, la ejecución de la simulación, la generación de telemetría y la evaluación del desafío. |
+
+| `interfaz.h` | Declara las funciones relacionadas con la presentación y la interacción con el usuario. |
+
+| `interfaz.c` | Implementa la interfaz visual, visualización de telemetría, los reportes y el modo desafio. |
 
 | `validaciones.h` | Declaración de las funciones de validación. |
 
@@ -276,12 +284,15 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 &#x20; \* \*"Cómo estructurar un Makefile multiplataforma para compilar varios archivos .c y .h."\*
 
+&#x20; \* \*"Cómo organizar un programa en C utilizando módulos y archivos de cabecera."\*
+
 \* \*\*Validación y adaptación:\*\*
 
 &#x20; \* Todas las sugerencias proporcionadas fueron revisadas, probadas y contrastadas con los requisitos de la consigna. Cada fragmento incorporado fue comprendido y adaptado por los integrantes del equipo mediante pruebas de escritorio y ejecución en consola.
 
-
-
+\* \*\*Links:\*\*
+El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: LINK REPO
+Video de youtube: LINK YT
 \---
 
 \*Proyecto académico – Algoritmos y Estructuras de Datos – UTN FRRe.\*
