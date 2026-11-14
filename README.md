@@ -2,37 +2,13 @@
 
 
 
-\*\*Universidad Tecnológica Nacional – Facultad Regional Resistencia\*\*  
+**Universidad Tecnológica Nacional – Facultad Regional Resistencia**  
 
-\*\*Carrera:\*\* Ingeniería en Sistemas de Información  
+**Carrera:** Ingeniería en Sistemas de Información  
 
-\*\*Asignatura:\*\* Algoritmos y Estructuras de Datos  
+**Asignatura:** Algoritmos y Estructuras de Datos  
 
-\*\*Trabajo Final Integrador – Laboratorio de C\*\*
-
-
-
-\---
-
-
-
-\## 1. Integrantes
-
-
-
-\* \*\*Comisión:\*\* K1.2 ISI B
-
-\* \*\*Equipo de desarrollo:\*\*
-
-&#x20; \* Gabriel Damian LEDESMA TARAGANO
-
-&#x20; \* Renata VALERO TRENQUE
-
-&#x20; \* Tobias Maximiliano Vilaqui
-
-&#x20; \* Ramiro Agustin Merlo
-
-&#x20; \* Andrés Luciano Almirón
+**Trabajo Final Integrador – Laboratorio de C**
 
 
 
@@ -40,7 +16,31 @@
 
 
 
-\## 2. Descripción del proyecto
+## 1. Integrantes
+
+
+
+**Comisión:** K1.2 ISI B
+
+***Equipo de desarrollo:**
+
+&#x20; * Gabriel Damian LEDESMA TARAGANO
+
+&#x20; * Renata VALERO TRENQUE
+
+&#x20; * Tobias Maximiliano Vilaqui
+
+&#x20; * Ramiro Agustin Merlo
+
+&#x20; * Andrés Luciano Almirón
+
+
+
+\---
+
+
+
+## 2. Descripción del proyecto
 
 
 
@@ -52,33 +52,33 @@ El simulador representa las dos etapas principales del ascenso vertical de la na
 
 
 
-\### Escenario 1: Ascenso y Propulsión con el SLS
+### Escenario 1: Ascenso y Propulsión con el SLS
 
 El cohete parte del reposo desde la plataforma de lanzamiento y experimenta dos fases de aceleración:
 
 
 
-\* \*\*Primera fase:\*\*
+**Primera fase:**
 
-&#x20; \* Velocidad inicial: `0 m/s`.
+&#x20; * Velocidad inicial: `0 m/s`.
 
-&#x20; \* Aceleración: `20 m/s²`.
+&#x20; * Aceleración: `20 m/s²`.
 
-&#x20; \* Tiempo de duración: `120 segundos`.
+&#x20; * Tiempo de duración: `120 segundos`.
 
-&#x20; \* Al finalizar, se produce el desprendimiento de los propulsores SRB.
+&#x20; * Al finalizar, se produce el desprendimiento de los propulsores SRB.
 
-\* \*\*Segunda fase:\*\*
+***Segunda fase:**
 
-&#x20; \* Aceleración: `12,5 m/s²`.
+&#x20; * Aceleración: `12,5 m/s²`.
 
-&#x20; \* Continúa el ascenso desde las condiciones finales de la primera fase.
+&#x20; * Continúa el ascenso desde las condiciones finales de la primera fase.
 
-&#x20; \* Los motores se apagan al alcanzar los `160.000 metros` de altitud.
+&#x20; * Los motores se apagan al alcanzar los `160.000 metros` de altitud.
 
 
 
-\*(Se considera despreciable la resistencia del aire durante el ascenso).\*
+*(Se considera despreciable la resistencia del aire durante el ascenso).*
 
 
 
@@ -86,19 +86,19 @@ El cohete parte del reposo desde la plataforma de lanzamiento y experimenta dos 
 
 
 
-\## 3. Objetivos del simulador
+## 3. Objetivos del simulador
 
 
 
 El programa permite:
 
-1\. Calcular la velocidad y la altura alcanzadas al momento del desprendimiento de los SRB.
+1. Calcular la velocidad y la altura alcanzadas al momento del desprendimiento de los SRB.
 
-2\. Determinar la velocidad de la nave al alcanzar los 160 km de altitud.
+2. Determinar la velocidad de la nave al alcanzar los 160 km de altitud.
 
-3\. Calcular la altura máxima alcanzada ante una falla de los motores y posterior movimiento bajo la aceleración gravitatoria (`g = 9,80 m/s²`).
+3. Calcular la altura máxima alcanzada ante una falla de los motores y posterior movimiento bajo la aceleración gravitatoria (`g = 9,80 m/s²`).
 
-4\. Expresar la aceleración de la primera fase como múltiplo de la gravedad terrestre.
+4. Expresar la aceleración de la primera fase como múltiplo de la gravedad terrestre.
 
 
 
@@ -106,7 +106,7 @@ El programa permite:
 
 
 
-\## 4. Funcionamiento del programa
+## 4. Funcionamiento del programa
 
 
 
@@ -114,9 +114,9 @@ El sistema presenta un menú principal desde el cual el usuario puede selecciona
 
 
 
-\* \*\*Simulación con parámetros establecidos:\*\* utiliza los valores físicos definidos en el escenario Artemis.
+**Simulación con parámetros establecidos:\*\* utiliza los valores físicos definidos en el escenario Artemis.
 
-\* \*\*Simulación personalizada:\*\* permite ingresar nuevos parámetros para realizar cálculos dentro de las restricciones físicas del modelo.
+***Simulación personalizada:\*\* permite ingresar nuevos parámetros para realizar cálculos dentro de las restricciones físicas del modelo.
 
 
 
@@ -128,7 +128,7 @@ Al finalizar los cálculos, el sistema presenta un reporte detallado con los res
 
 
 
-\## 5. Organización y arquitectura del código
+## 5. Organización y arquitectura del código
 
 
 
@@ -188,19 +188,19 @@ C-Aed-2026/
 
 
 
-\## 6. Requisitos y herramientas
+## 6. Requisitos y herramientas
 
 
 
-\* \*\*Lenguaje de programación:\*\* C (Estándar C11)
+**Lenguaje de programación:** C (Estándar C11)
 
-\* \*\*Compilador:\*\* GCC
+***Compilador:** GCC
 
-\* \*\*Control de versiones:\*\* Git
+***Control de versiones:** Git
 
-\* \*\*Repositorio:\*\* GitHub
+**Repositorio:** GitHub
 
-\* \*\*Entorno de ejecución:\*\* Consola o terminal de comandos
+***Entorno de ejecución:** Consola o terminal de comandos
 
 
 
@@ -208,7 +208,7 @@ C-Aed-2026/
 
 
 
-\## 7. Compilación y ejecución
+## 7. Compilación y ejecución
 
 
 
@@ -256,7 +256,7 @@ make clean
 
 
 
-\## 8. Registro del uso de Inteligencia Artificial
+## 8. Registro del uso de Inteligencia Artificial
 
 
 
@@ -264,40 +264,40 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 
 
-\* \*\*Herramientas utilizadas:\*\* ChatGPT, Claude y Gemini.
+**Herramientas utilizadas:** ChatGPT, Claude y Gemini.
 
-\* \*\*Tareas realizadas:\*\*
+**Tareas realizadas:**
 
-&#x20; \* Consulta y comprensión de conceptos de programación en C (punteros, estructuras y modularización).
+&#x20; * Consulta y comprensión de conceptos de programación en C (punteros, estructuras y modularización).
 
-&#x20; \* Asistencia en la estructura del `Makefile`, flujo de GitHub y documentación en Markdown.
+&#x20; * Asistencia en la estructura del `Makefile`, flujo de GitHub y documentación en Markdown.
 
-&#x20; \* Verificación de cálculos físicos y fórmulas de MRUV correspondientes al escenario.
+&#x20; * Verificación de cálculos físicos y fórmulas de MRUV correspondientes al escenario.
 
-&#x20; \* Propuestas de casos de prueba y validación de entradas por consola.
+&#x20; * Propuestas de casos de prueba y validación de entradas por consola.
 
-&#x20; \* Búsqueda y verificacion de errores tanto de cálculos como de código o sintaxis y optimizaciones generales.
+&#x20; * Búsqueda y verificacion de errores tanto de cálculos como de código o sintaxis y optimizaciones generales.
 
-\* \*\*Ejemplos de consultas realizadas:\*\*
+***Ejemplos de consultas realizadas:**
 
-&#x20; \* \*"Cómo validar entradas numéricas en C limpiando el buffer para evitar bucles infinitos."\*
+&#x20; **"Cómo validar entradas numéricas en C limpiando el buffer para evitar bucles infinitos."*
 
-&#x20; \* \*"Cómo estructurar un Makefile multiplataforma para compilar varios archivos .c y .h."\*
+&#x20; **"Cómo estructurar un Makefile multiplataforma para compilar varios archivos .c y .h."*
 
-&#x20; \* \*"Cómo organizar un programa en C utilizando módulos y archivos de cabecera."\*
+&#x20; **"Cómo organizar un programa en C utilizando módulos y archivos de cabecera."*
 
-\* \*\*Validación y adaptación:\*\*
+**Validación y adaptación:**
 
-&#x20; \* Todas las sugerencias proporcionadas fueron revisadas, probadas y contrastadas con los requisitos de la consigna. Cada fragmento incorporado fue comprendido y adaptado por los integrantes del equipo mediante pruebas de escritorio y ejecución en consola.
+&#x20; * Todas las sugerencias proporcionadas fueron revisadas, probadas y contrastadas con los requisitos de la consigna. Cada fragmento incorporado fue comprendido y adaptado por los integrantes del equipo mediante pruebas de escritorio y ejecución en consola.
 
-\* \*\*Links:\*\*
+**Links:**
 
 El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: LINK REPO
 
 Video de youtube: LINK YT
 \---
 
-\*Proyecto académico – Algoritmos y Estructuras de Datos – UTN FRRe.\*
+*Proyecto académico – Algoritmos y Estructuras de Datos – UTN FRRe.*
 
 
 
