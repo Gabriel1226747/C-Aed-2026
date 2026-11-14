@@ -24,15 +24,15 @@
 
 **Equipo de desarrollo:**
 
-&#x20; * Gabriel Damian LEDESMA TARAGANO
+&#x20;  Gabriel Damian LEDESMA TARAGANO
 
-&#x20; * Renata VALERO TRENQUE *
+&#x20;  Renata VALERO TRENQUE 
 
-&#x20; * Tobias Maximiliano Vilaqui
+&#x20;  Tobias Maximiliano Vilaqui
 
-&#x20; * Ramiro Agustin Merlo
+&#x20;  Ramiro Agustin Merlo
 
-&#x20; * Andrés Luciano Almirón
+&#x20;  Andrés Luciano Almirón
 
 
 
