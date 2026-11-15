@@ -24,9 +24,9 @@
 
 **Equipo de desarrollo:**
 
-&#x20;  Gabriel Damian LEDESMA TARAGANO
+&#x20;  Gabriel Damian Ledesma Taragano
 
-&#x20;  Renata VALERO TRENQUE 
+&#x20;  Renata Valero Trenque 
 
 &#x20;  Tobias Maximiliano Vilaqui
 
@@ -286,6 +286,8 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 &#x20; "Cómo organizar un programa en C utilizando módulos y archivos de cabecera."
 
+&#x20; "Busca si hay errores en este fragmento de código y explica que lo causa y ofrece posibles soluciones."
+
 **Validación y adaptación:**
 
 &#x20;  Todas las sugerencias proporcionadas fueron revisadas, probadas y contrastadas con los requisitos de la consigna. Cada fragmento incorporado fue comprendido y adaptado por los integrantes del equipo mediante pruebas de escritorio y ejecución en consola.
@@ -294,7 +296,7 @@ Se utilizaron herramientas de Inteligencia Artificial Generativa como apoyo dura
 
 El código fuente y los archivos del proyecto se encuentran disponibles en GitHub: https://github.com/Gabriel1226747/C-Aed-2026
 
-Video de YouTube: LINK YT
+Video de YouTube: https://youtu.be/V5-NEBm08-k
 
 
 *Proyecto académico – Algoritmos y Estructuras de Datos – UTN FRRe.*
